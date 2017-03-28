@@ -24,13 +24,13 @@ module RubyVor
       doc.root['xmlns'] = 'http://www.w3.org/2000/svg'
       doc.root['xml:space'] = 'preserve'
 
-      max_x = 0
+      max_x = Float::MIN
       min_x = Float::MAX
-      max_y = 0
+      max_y = Float::MIN
       min_y = Float::MAX
-      pmax_x = 0
+      pmax_x = Float::MIN
       pmin_x = Float::MAX
-      pmax_y = 0
+      pmax_y = Float::MIN
       pmin_y = Float::MAX
 
       computation.points.each do |point|
@@ -54,7 +54,20 @@ module RubyVor
           end
         end
       end
-      
+
+      if opts[:min_x]
+        min_x = opts[:min_x]
+      end
+      if opts[:min_y]
+        min_y = opts[:min_y]
+      end
+      if opts[:max_x]
+        max_x = opts[:max_x]
+      end
+      if opts[:max_y]
+        max_y = opts[:max_y]
+      end
+
       opts[:offset_x] = -1.0 * min_x + 20
       opts[:offset_y] = -1.0 * min_y + 20
 
@@ -176,7 +189,7 @@ module RubyVor
       # Now draw in nodes
       computation.points.each do |point|
         node = circle_from_point(point)
-        node['fill'] = 'lime'
+        node['fill'] = point.respond_to?(:colour) ? point.colour : 'lime'
 
         doc.root << node
       end
@@ -201,7 +214,8 @@ module RubyVor
       node = XML::Node.new('circle')
       node['cx'] = (point.x + @opts[:offset_x] + 10).to_s
       node['cy'] = (point.y + @opts[:offset_y] + 10).to_s
-      node['r'] = 5.to_s
+      radius = point.respond_to?(:radius) ? point.radius : 5
+      node['r'] = radius.to_s
       node['stroke'] = 'black'
       node['stroke-width'] = 2.to_s
       node

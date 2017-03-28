@@ -4,13 +4,13 @@ require 'rubygems'
 require 'hoe'
 require './lib/ruby_vor/version.rb'
 
-EXT = "ext/voronoi_interface.#{Config::CONFIG['DLEXT']}"
+EXT = "ext/voronoi_interface.#{RbConfig::CONFIG['DLEXT']}"
 
 Hoe.spec 'rubyvor' do
   developer 'Brendan Ribera', 'brendan.ribera+rubyvor@gmail.com'
   
   self.version      = RubyVor::VERSION
-  self.url          = 'http://github.com/bribera/rubyvor'
+  self.urls         = ['http://github.com/bribera/rubyvor']
   self.readme_file  = 'README.rdoc'
   self.history_file = 'History.rdoc'
   self.summary      = 'Efficient Voronoi diagrams and Delaunay trianglation for Ruby'

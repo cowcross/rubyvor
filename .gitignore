@@ -1,2 +1,4 @@
 pkg
 rubyvor-rdoc
+.idea
+ext/*.bundle
